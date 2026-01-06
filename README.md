@@ -26,12 +26,23 @@ pip install -r requirements.txt
 
 ### Running Examples
 
+Using the CLI runner:
 ```bash
 # Run a simple reactive agent
-python examples/simple_agent.py
+python run_example.py simple
 
 # Run a learning agent example
-python examples/learning_agent_example.py
+python run_example.py learning
+
+# Get help
+python run_example.py --help
+```
+
+Or run examples directly:
+```bash
+# Run with PYTHONPATH
+PYTHONPATH=. python examples/simple_agent.py
+PYTHONPATH=. python examples/learning_agent_example.py
 ```
 
 ## Project Structure
