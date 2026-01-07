@@ -35,32 +35,9 @@ Expected output: `Homebrew 4.x.x` or similar
 
 iTerm2 is a powerful terminal replacement for macOS with better features than the default Terminal app.
 
-#### Install iTerm2
-```bash
-# Using Homebrew
-brew install --cask iterm2
-```
-
-#### Or Manual Download
 1. Visit [iterm2.com](https://iterm2.com/)
 2. Download the latest stable release
 3. Open the `.zip` file and drag iTerm to Applications
-
-#### Configure iTerm2 (Optional)
-Once installed, you can customize iTerm2:
-1. Open iTerm2
-2. Go to **Preferences** (Cmd+,)
-3. Recommended settings:
-   - **Appearance** → Theme: Minimal (or your preference)
-   - **Profiles** → Colors: Choose a color scheme (Solarized Dark is popular)
-   - **Profiles** → Terminal: Enable "Unlimited scrollback"
-
-#### Why iTerm2?
-- Split panes (Cmd+D horizontal, Cmd+Shift+D vertical)
-- Better search (Cmd+F)
-- Hotkey window (global terminal overlay)
-- Advanced copy/paste
-- Session restoration
 
 ---
 
@@ -75,8 +52,6 @@ Docker Desktop enables running containers on your Mac, which is required for dev
 4. Drag the Docker icon to your Applications folder
 5. Launch **Docker Desktop** from Applications
 6. Follow the setup wizard and grant necessary permissions
-
-> **Note**: If you prefer using Homebrew: `brew install --cask docker`
 
 #### Configure Docker
 1. Open Docker Desktop
@@ -106,14 +81,6 @@ VS Code is the recommended IDE with excellent dev container support.
 3. Open the downloaded `.zip` file
 4. Drag **Visual Studio Code** to your Applications folder
 5. Launch VS Code from Applications
-
-> **Note**: If you prefer using Homebrew: `brew install --cask visual-studio-code`
-
-#### Optional: Add VS Code to Terminal
-For convenience, you can open VS Code from the terminal:
-1. Open VS Code
-2. Press `Cmd+Shift+P` to open Command Palette
-3. Type "shell command" and select: **Shell Command: Install 'code' command in PATH**
 
 ---
 
@@ -145,21 +112,21 @@ Install these extensions through VS Code's Extensions panel:
 Ollama runs LLMs locally on your Mac.
 
 #### Installation
-1. Visit [ollama.com/download](https://ollama.com/download)
-2. Click **Download for macOS**
-3. Open the downloaded file and follow the installation prompts
-4. The Ollama icon will appear in your menu bar when running
-
-> **Note**: If you prefer using Homebrew: `brew install ollama`
-
-#### Verify Ollama
-Ollama should start automatically. To verify:
-1. Look for the Ollama icon in your menu bar (top right)
-2. Open Terminal (or iTerm2) and run:
 ```bash
+# Install Ollama using Homebrew
+brew install ollama
+
+# Start Ollama service
+brew services start ollama
+```
+
+#### Verify Installation
+```bash
+# Check if Ollama is running
 ollama list
 ```
-This shows installed models (will be empty at first).
+
+You should see an empty list (no models installed yet) or a list of installed models.
 
 ---
 
@@ -273,77 +240,6 @@ python main.py
 
 ---
 
-## 🔧 Troubleshooting
-
-### Docker Issues
-
-**"Cannot connect to Docker daemon"**
-1. Make sure Docker Desktop is running (check menu bar icon)
-2. Open Docker Desktop from Applications if needed
-3. Wait for it to fully start (green icon in menu bar)
-
-**"No space left on device"**
-1. Open Docker Desktop
-2. Go to **Settings** (gear icon) → **Resources** → **Advanced**
-3. Increase the **Disk image size** (recommended: 64GB+)
-4. Click **Apply & Restart**
-
-Or clean up unused Docker data:
-1. Open Docker Desktop
-2. Go to **Troubleshoot** (bug icon) → **Clean / Purge data**
-
-### Ollama Connection Issues
-
-**"Connection refused" to Ollama from container**
-
-The dev container tries to connect to Ollama on your host machine. The connection URL depends on your setup:
-
-**Default (should work for most):**
-```bash
-export OLLAMA_BASE_URL=http://host.docker.internal:11434
-```
-
-**Alternative for some Docker setups:**
-```bash
-export OLLAMA_BASE_URL=http://172.17.0.1:11434
-```
-
-**Test connection from container:**
-```bash
-curl http://host.docker.internal:11434/api/tags
-```
-
-**If nothing works, use host network mode:**
-Edit `.devcontainer/devcontainer.json`:
-```json
-{
-  "runArgs": ["--network=host"]
-}
-```
-Then rebuild container and use `http://localhost:11434`
-
-### Dev Container Issues
-
-**"Failed to connect to dev container"**
-1. Restart Docker Desktop (Quit and reopen)
-2. Close VS Code completely
-3. Reopen VS Code and try again
-
-**Rebuild the container if something goes wrong:**
-1. Press `Cmd+Shift+P` in VS Code
-2. Type "Dev Containers: Rebuild Container"
-3. Press Enter and wait for rebuild
-
-### VS Code Extensions
-
-**Extensions not appearing:**
-1. Click the Extensions icon in VS Code
-2. Search for "Dev Containers"
-3. If not installed, install it
-4. Reload VS Code
-
----
-
 ## 📚 Additional Resources
 
 ### Documentation
@@ -373,22 +269,6 @@ ollama ps                # List running models
 # VS Code
 code --list-extensions   # List installed extensions
 ```
-
----
-
-## ✅ Quick Verification Checklist
-
-Before starting development, verify everything is working:
-
-- [ ] Homebrew installed: `brew --version`
-- [ ] Docker Desktop running: `docker --version` and `docker ps`
-- [ ] VS Code installed: `code --version`
-- [ ] Dev Containers extension installed
-- [ ] Ollama running: `ollama list` shows models
-- [ ] At least one model pulled (llama3.2 or llama3.1)
-- [ ] Project opens in dev container
-- [ ] `python setup_check.py` shows ✅ for Ollama connection
-- [ ] `python agent.py` runs successfully
 
 ---
 
